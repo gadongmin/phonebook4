@@ -13,7 +13,7 @@
 	<h2>전화번호 리스트</h2>
 	<p>전화번호 리스트 입니다.</p>
 	<c:forEach items="${requestScope.pList}" var="personVO" varStatus="status">
-	  	<p>personId: ${personVO.personId}</p>
+		<p>${personVO.personId}</p>
 		<table border="1">
 			<tbody>
 				<tr>

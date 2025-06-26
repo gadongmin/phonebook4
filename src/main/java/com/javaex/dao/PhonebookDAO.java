@@ -1,6 +1,7 @@
 package com.javaex.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,48 +16,58 @@ public class PhonebookDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
-	// 전체리스트 가져오기
+	// - 전체리스트 가져오기
 	public List<PersonVO> personSelect() {
 		System.out.println("GuestDAO.phonebookSelect()");
-		
-		// 리스트준비
+
 		List<PersonVO> phonebookList = sqlSession.selectList("phonebook.selectList");
-		
 		return phonebookList;
 
 	}
 
-	// 1명 정보 가져오기
+	// - 1명 정보 가져오기
 	public PersonVO personSelectOne(int no) {
 		System.out.println("GuestDAO.phonebookSelectOne()");
-		
-		PersonVO personVO = sqlSession.selectOne("phonebook.selectOne", no);
-		System.out.println(no);
 
+		PersonVO personVO = sqlSession.selectOne("phonebook.selectOne", no);
+		
+		Map<String, Object> map = sqlSession.selectOne("phonebook.selectOne2", no);
+		System.out.println("---------------------------");
+		System.out.println(map);
+		System.out.println("---------------------------");
+		
 		return personVO;
 
 	}
 
-	// 사람(주소) 등록
+	// - 등록
 	public int personInsert(PersonVO personVO) {
 		System.out.println("GuestDAO.personInsert()");
-
+		
 		int count = sqlSession.insert("phonebook.insert", personVO);
 		return count;
 	}
+	
+	// - 등록(MAP 사용)
+	public int personInsert2(Map<String, String> personMap) {
+		System.out.println("GuestDAO.personInsert()");
+		System.out.println(personMap);
+		int count = sqlSession.insert("phonebook.insert2", personMap);
+		return 0;
+	}
 
-	// 사람(주소) 삭제
+	// - 수정
+	public int personUpdate(PersonVO personVO) {
+
+		int count = sqlSession.update("phonebook.update", personVO);
+		return count;
+	}
+
+	// - 삭제
 	public int personDelete(int no) {
 
 		int count = sqlSession.delete("phonebook.delete", no);
 		return count;
-	}
-
-	// 사람(주소) 수정
-	public int personUpdate(PersonVO personVO) {
-
-	    int count = sqlSession.update("phonebook.update", personVO);
-	    return count;
 	}
 
 }

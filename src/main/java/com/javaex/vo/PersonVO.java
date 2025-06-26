@@ -12,15 +12,6 @@ public class PersonVO {
 	public PersonVO() {
 	}
 
-	public PersonVO(int personId) {
-		this.personId = personId;
-	}
-
-	public PersonVO(String name, String hp, String company) {
-		this.name = name;
-		this.hp = hp;
-		this.company = company;
-	}
 
 	public PersonVO(int personId, String name, String hp, String company) {
 		this.personId = personId;

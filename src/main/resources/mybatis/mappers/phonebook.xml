@@ -2,8 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="phonebook">
+
+	<resultMap id="resultMapPersonVO" type="PersonVO">
+		<result column="person_id" property="personId" />
+		<result column="name" property="name" />
+		<result column="hp" property="hp" />
+		<result column="company" property="company" />
+	</resultMap>
+
+	<!-- 리스트2 resultMap-->
+	<select id="selectList2" resultMap="resultMapPersonVO">
+		<![CDATA[
+			select 	 person_id
+				    ,name
+     			    ,hp
+				    ,company
+			from  	 person
+			order by person_id desc
+		]]>
+	</select>
+
+
 	<!-- 리스트 -->
-	<select id="selectList" resultType="com.javaex.vo.PersonVO">
+	<select id="selectList" resultType="PersonVO">
 		<![CDATA[
 			select 	 person_id as personId
 				    ,name
@@ -16,9 +37,22 @@
 
 
 	<!-- 리스트 인원 -->
-	<select id="selectOne" parameterType="com.javaex.vo.PersonVO" resultType="com.javaex.vo.PersonVO">
+	<select id="selectOne" parameterType="int" resultType="PersonVO">
 		<![CDATA[
-			select  name
+			select  person_id as personId  
+				   ,name
+				   ,hp
+				   ,company
+			from 	person
+			where 	person_id = #{personId}
+		]]>
+	</select>
+	
+	<!-- 리스트 인원 map사용-->	
+	<select id="selectOne2" parameterType="int" resultType="map">
+		<![CDATA[
+			select  person_id as personId  
+				   ,name
 				   ,hp
 				   ,company
 			from 	person
@@ -28,7 +62,7 @@
 
 
 	<!-- 등록 -->	
-	<insert id="insert" parameterType="com.javaex.vo.PersonVO">
+	<insert id="insert" parameterType="PersonVO">
 		<![CDATA[
 			insert into person
 			values (null, #{name}, #{hp}, #{company})
@@ -36,17 +70,25 @@
 	</insert>
 	
 	
+	<!-- 등록 map사용-->	
+	<insert id="insert2" parameterType="map">
+		<![CDATA[
+			insert into person
+			values (null, #{name}, #{hp}, #{company})
+		]]>	
+	</insert>
+	
 	<!-- 삭제 -->
 	<delete id="delete" parameterType="int">
 		<![CDATA[
 			delete from person
-			where person_id = #{no}
+			where  person_id = #{no}
 		]]>		
 	</delete>
 	
 	
 	<!-- 수정 -->
-	<update id="update" parameterType="com.javaex.vo.PersonVO">
+	<update id="update" parameterType="PersonVO">
 		<![CDATA[
 			update 	person
 			set 	name = #{name}
